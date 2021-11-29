@@ -2,9 +2,29 @@ from flask import Flask
 from markupsafe import escape
 from flask import url_for
 from flask import request
+import os
+import psycopg2
 
 app = Flask(__name__)
 
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cur = conn.cursor()
+
+# cur.execute(
+#     "CREATE TABLE Persons (PersonID int,LastName varchar(255),FirstName varchar(255),Address varchar(255),City varchar(255));"
+# )
+
+# cur.execute(
+#     "INSERT INTO Persons (personid, lastname, firstname, address, city) VALUES (1, 'anuttranon', 'sarin', '135 bangbon', 'bangkok');"
+# )
+
+# conn.commit()
+
+cur.execute("SELECT * FROM Persons")
+
+records = cur.fetchall()
+print(records)
 
 @app.route('/')
 def index():
