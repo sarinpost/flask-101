@@ -43,7 +43,7 @@ def profile(username):
     return f'{username}\'s profile'
 
 @app.route('/getPersons')
-def profile():
+def getPersons():
     cur = conn.cursor()
     cur.execute("SELECT * FROM Persons")
     records = cur.fetchall()
