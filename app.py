@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-cur = conn.cursor()
+
 
 # cur.execute(
 #     "CREATE TABLE Persons (PersonID int,LastName varchar(255),FirstName varchar(255),Address varchar(255),City varchar(255));"
@@ -20,11 +20,6 @@ cur = conn.cursor()
 # )
 
 # conn.commit()
-
-cur.execute("SELECT * FROM Persons")
-
-records = cur.fetchall()
-print(records)
 
 @app.route('/')
 def index():
@@ -46,6 +41,13 @@ def login():
 @app.route('/user/<username>')
 def profile(username):
     return f'{username}\'s profile'
+
+@app.route('/getPersons')
+def profile():
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM Persons")
+    records = cur.fetchall()
+    return f'{records} persons'
 
 
 with app.test_request_context():
